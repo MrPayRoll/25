@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userData) => {
+        console.log("Login function called with userData:", userData); // Debugging log
         setIsAuthenticated(true);
         setUser(userData);
         setToken(userData.token);

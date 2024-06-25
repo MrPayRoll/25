@@ -1,4 +1,8 @@
 
+.glv{
+  min-height: 100vh;
+  overflow: hidden;
+}
 .contact-page {
     display: grid;
     grid-template-rows: auto auto auto;

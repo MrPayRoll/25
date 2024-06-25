@@ -11,11 +11,12 @@ import Home from "./Components/Home";
 import ProfilePage from "./Components/Lk";
 import Onas from "./Components/Onas";
 import Modal from './modal/ModalRegistration';
-import ModalAuth from './modal/ModalAuth'; // Import ModalAuth component
+import ModalAuth from './modal/ModalAuth';
 import YourComponent from './Components/test';
 import DetailForm from './Components/AdminPanel';
 import Slider from './Components/Slider';
 import PrivateRoute from './modal/PrivateRoute';
+import DetailPage from './Components/DetailPage';
 
 export default function App() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           </PrivateRoute>
         } />
         <Route path="/slider" element={<Slider />} />
+        <Route path="/details/:id" element={<DetailPage />} /> {/* Add this route */}
       </Routes>
       <ToastContainer />
     </Router>

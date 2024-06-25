@@ -72,19 +72,19 @@ function Home() {
         <div className="brands-container">
         <div class="grid-container-img">
   <div class="item1">
-    <img src={auto_one} alt="Auto parts 1" />
+    <img src={auto_one}/>
   </div>
   <div class="item2">
-    <img src={auto_two} alt="Auto parts 2" />
+    <img src={auto_two}/>
   </div>
   <div class="item3">
-    <img src={auto_free} alt="Auto parts 3" />
+    <img src={auto_free}/>
   </div>
   <div class="item4">
-    <img src={auto_fi} alt="Auto parts 4" />
+    <img src={auto_fi}/>
   </div>
   <div class="item5">
-    <img src={auto_fo} alt="Auto parts 5" />
+    <img src={auto_fo}/>
   </div>
 </div>
 

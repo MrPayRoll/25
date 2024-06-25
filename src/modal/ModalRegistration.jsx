@@ -56,9 +56,7 @@ const Modal = ({ active, setActive }) => {
         }
 
         try {
-            console.log('Submitting data:', formData);
-            const response = await axios.post('https://400c-94-141-125-64.ngrok-free.app/api/user/registration', formData);
-            console.log('Response data:', response.data);
+            const response = await axios.post('https://781c-94-141-125-64.ngrok-free.app/api/user/registration', formData);
             setActive(false);
             toast.success("Регистрация прошла успешно!");
         } catch (error) {
@@ -79,7 +77,6 @@ const Modal = ({ active, setActive }) => {
                     toast.error(`Ошибка: ${error.message}`);
                 }
             } else {
-                console.error("Unexpected error:", error);
                 toast.error("Произошла непредвиденная ошибка");
             }
         }

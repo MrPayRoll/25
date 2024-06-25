@@ -1,6 +1,6 @@
 
 import '../Components/Footer.css';
-
+import { Link, useNavigate } from 'react-router-dom';
 function Footer() {
   return (<>
     <div className="razdel"></div>
@@ -17,20 +17,20 @@ function Footer() {
             </div>
             <div className="sectoins-links">
             <div className="company-info">
-                <div>ООО "РЕКАВТОСЕРВИС"</div>
+                <div>ИП "Лашко Б.Е."</div>
                 <div>ИНН 3525471044</div>
                 <div>КПП 352501001</div>
                 <div>ОГРН 1213500009656</div>
             </div>
-            <div className="links">
-                <div>О нас</div>
-                <div>Каталог</div>
-                <div>Личный кабинет</div>
+            <div className="links links-1">
+                <Link to='/onas'><div>О нас</div></Link>
+                <Link to='/catalog'><div>Каталог</div></Link>
+                <Link to='/profile'><div>Личный кабинет</div></Link>
             </div>
-            <div className="links">
-                <div>Контакты</div>
-                <div>Политика конфиденциальности</div>
-                <div>Согласие на обработку персональных данных</div>
+            <div className="links links-2">
+            <Link to='/contact'><div>Контакты</div></Link>
+            <Link to='/'><div>Политика конфиденциальности</div></Link>
+            <Link to='/'><div>Согласие на обработку персональных данных</div></Link>
             </div>
             </div>
             </div>
@@ -38,9 +38,9 @@ function Footer() {
                 <div>Звоните нам:</div>
                 <div>8 800 551 50 45<br/>+7 (905) 297 00 08</div>
                 <div>Мы находимся:</div>
-                <div>160024, Вологодская обл.,<br/>г Вологда ул. Батюшкова, 11</div>
-                <div>Наши e-mail:</div>
-                <div>hello@recauto.ru<br/>recautots@yandex.ru</div>
+                <div>344056, Ростовская обл.,<br/>г.Ростов-на-Дону Георгиевская улица, 13</div>
+                <div>Наш e-mail:</div>
+                <div>klientovick5@gmail.com</div>
             </div>
         </footer>
         </>

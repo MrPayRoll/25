@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../Components/Catalog.css';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../modal/AuthContext'; // Adjust the path according to your project structure
 
 function Catalog() {
+  const { user } = useAuth(); // Use the user from context
+  const userId = user ? user.user : null; // Adjust according to your user object structure
+
   const [filteredData, setFilteredData] = useState([]);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(5000);
@@ -19,6 +23,7 @@ function Catalog() {
   });
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleMinChange = (e) => {
     const value = Math.min(Number(e.target.value), maxValue - 1);
@@ -59,7 +64,7 @@ function Catalog() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://400c-94-141-125-64.ngrok-free.app/api/detail/all', {
+        const response = await axios.get('https://781c-94-141-125-64.ngrok-free.app/api/detail/all', {
           headers: {
             'ngrok-skip-browser-warning': 'true',
           },
@@ -98,6 +103,27 @@ function Catalog() {
     const searchQuery = params.get('search');
     filterByPriceAndCategory(searchQuery);
   }, [minValue, maxValue, data, selectedCategories]);
+
+  const handleCardClick = (detailId) => {
+    navigate(`/details/${detailId}`);
+  };
+
+  const handleBuyClick = async (detailId) => {
+    if (!userId) {
+      alert('User ID not found!');
+      return;
+    }
+
+    console.log('User ID:', userId);
+
+    try {
+      await axios.put('https://781c-94-141-125-64.ngrok-free.app/api/basket/add', {
+        id: userId,
+        detail_id: detailId
+      });
+      alert('Purchase successful!');
+    } catch (error){}
+  };
 
   return (
     <>
@@ -144,7 +170,6 @@ function Catalog() {
                 </div>
               </div>
             </div>
-
             <div className="filter-section">
               <h4>Categories</h4>
               {Object.keys(selectedCategories).map((categoryId) => (
@@ -161,19 +186,21 @@ function Catalog() {
                   {categoryId === '3' && "Масла"}
                   {categoryId === '4' && "Инструменты"}
                   {categoryId === '5' && "АвтоХимия"}
-                  <span>(1)</span>
                 </label>
               ))}
             </div>
           </div>
           <div className="product-grid">
             {filteredData && filteredData.map((item) => (
-              <div key={item.detail_id} className="product-card">
+              <div key={item.detail_id} className="product-card" onClick={() => handleCardClick(item.detail_id)}>
                 <img src={`data:image/png;base64,${item.img}`} alt={item.name} />
                 <h2>{item.name}</h2>
                 <div className="info">
                   <p className="price">Price: {item.price}</p>
-                  <button className="buy-button" onClick={() => handleBuyClick(item.detail_id)}>Купить</button>
+                  <button className="buy-button" onClick={(e) => {
+                    e.stopPropagation();
+                    handleBuyClick(item.detail_id);
+                  }}>Купить</button>
                 </div>
               </div>
             ))}

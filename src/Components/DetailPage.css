@@ -1,0 +1,14 @@
+.detail-page {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    margin-top: 5%;
+  }
+  .details-page{
+    display: grid;
+  }
+  .detail-page img {
+    width: 500px;
+    height: 350px;
+    margin-left: 10%;
+    overflow: hidden;
+  }

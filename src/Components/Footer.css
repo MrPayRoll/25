@@ -12,6 +12,7 @@
 .links{display: grid;
     gap: 0.5em;
 }
+
 .sectoins-links {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -46,4 +47,38 @@
 .opisanie-footer{
     font-weight: 550;
     font-size: 15px;
+}
+.links  a{
+    text-decoration: none;
+    color: black;
+}
+@media (max-width: 865px){
+    .footer-grid{
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 70vw;
+      }
+      .footer{
+        margin-left: 5%;
+      }
+}
+@media (max-width: 600px) {
+    .footer-grid{
+        width: 100vw;
+      }
+      .footer{
+        margin-left: 5%;
+        font-size: 14px;
+        justify-content: center;
+        width: 95vw;
+        overflow: hidden;
+      }
+      .links{
+        margin-left: 15%;
+      }
+      .contact-info{
+        grid-template-columns: 1fr 1fr;
+        justify-self: start;
+        margin-top: 5%;
+      }
 }

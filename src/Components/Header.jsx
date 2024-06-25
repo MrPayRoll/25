@@ -15,11 +15,6 @@ function Header() {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        console.log('User object:', user);
-    }, [user]);
-
     const handleLogin = (userData) => {
         login(userData);
         setModalActiveAuth(false);

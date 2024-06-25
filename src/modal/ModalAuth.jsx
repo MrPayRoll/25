@@ -3,8 +3,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import './ModalAuth.css';
+import { useAuth } from '../modal/AuthContext'; // Adjust the path according to your project structure
 
-const ModalAuth = ({ activeAuth, setActiveAuth, onLogin }) => {
+const ModalAuth = ({ activeAuth, setActiveAuth }) => {
+    const { login } = useAuth(); // Use the login function from context
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -19,9 +21,9 @@ const ModalAuth = ({ activeAuth, setActiveAuth, onLogin }) => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('https://400c-94-141-125-64.ngrok-free.app/api/user/login', formData);
-            console.log("Response data:", response.data);
-            onLogin(response.data);
+            const response = await axios.post('https://781c-94-141-125-64.ngrok-free.app/api/user/login', formData);
+            console.log("Login response data:", response.data); // Log all data from backend
+            login(response.data); // Call login function with user data
             setActiveAuth(false);
             toast.success("Успешная авторизация!");
         } catch (error) {
@@ -49,26 +51,29 @@ const ModalAuth = ({ activeAuth, setActiveAuth, onLogin }) => {
     };
 
     return (
-        <div className={activeAuth ? "ModalAuth activeAuth" : "ModalAuth"} onClick={() => setActiveAuth(false)}>
-            <div className="ModalAuth__content" onClick={e => e.stopPropagation()}>
-                <input 
-                    type="email" 
-                    name="email" 
-                    value={formData.email} 
-                    onChange={handleChange} 
-                    placeholder="Электронная почта"     
-                />
-                <input 
-                    type="password" 
-                    name="password" 
-                    value={formData.password} 
-                    onChange={handleChange} 
-                    placeholder="Пароль" 
-                />
-                <button onClick={handleSubmit}>Войти</button>
+        <>
+            <div className={activeAuth ? "modal-overlay active" : "modal-overlay"} onClick={() => setActiveAuth(false)}></div>
+            <div className={activeAuth ? "ModalAuth activeAuth" : "ModalAuth"} onClick={() => setActiveAuth(false)}>
+                <div className="ModalAuth__content" onClick={e => e.stopPropagation()}>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        placeholder="Электронная почта"     
+                    />
+                    <input 
+                        type="password" 
+                        name="password" 
+                        value={formData.password} 
+                        onChange={handleChange} 
+                        placeholder="Пароль" 
+                    />
+                    <button onClick={handleSubmit}>Войти</button>
+                </div>
+                <ToastContainer />
             </div>
-            <ToastContainer />
-        </div>
+        </>
     );
 };
 
