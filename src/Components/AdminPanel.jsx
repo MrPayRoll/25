@@ -1,10 +1,9 @@
-// DetailForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AdminPanel.css';
 import Sidebar from './SidebarAdmin';
 
-function DetailForm() {
+function DetailPage() {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState(null);
@@ -56,49 +55,49 @@ function DetailForm() {
 
   return (
     <>
-    <div className="glav-adminpanel">
-    <Sidebar></Sidebar>
-    <form onSubmit={handleSubmit} className="detail-form">
-      <label>
-        Название:
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Инфо id:
-        <input
-          type="text"
-          value={info}
-          onChange={(e) => setInfo(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Цена:
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Фото:
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-      </label>
-      <button type="submit">Создать деталь</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </form>
-    </div>
+      <div className="glav-adminpanel">
+        <Sidebar />
+        <form onSubmit={handleSubmit} className="detail-form">
+          <label>
+            Название:
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Инфо id:
+            <input
+              type="text"
+              value={info}
+              onChange={(e) => setInfo(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Цена:
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Фото:
+            <input
+              type="file"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </label>
+          <button type="submit">Создать деталь</button>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+        </form>
+      </div>
     </>
   );
 }
 
-export default DetailForm;
+export default DetailPage;

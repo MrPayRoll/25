@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../Components/Header.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Modal from '../modal/ModalRegistration';
@@ -9,12 +9,14 @@ import { useAuth } from '../modal/AuthContext';
 function Header() {
     const [modalActive, setModalActive] = useState(false);
     const [modalActiveAuth, setModalActiveAuth] = useState(false);
-    const {isAuthenticated, login, logout, user } = useAuth();
+    const { isAuthenticated, login, logout, user } = useAuth();
     const [showCatalog, setShowCatalog] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const catalogRef = useRef(null);
 
     const navigate = useNavigate();
+
     const handleLogin = (userData) => {
         login(userData);
         setModalActiveAuth(false);
@@ -28,6 +30,24 @@ function Header() {
     const handleSearch = () => {
         navigate(`/catalog?search=${searchQuery}`);
     };
+
+    const handleClickOutside = (event) => {
+        if (catalogRef.current && !catalogRef.current.contains(event.target) && !event.target.closest('.catalog-button')) {
+            setShowCatalog(false);
+        }
+    };
+
+    useEffect(() => {
+        if (showCatalog) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showCatalog]);
 
     return (
         <div>
@@ -93,17 +113,15 @@ function Header() {
                     )}
                 </div>
             </header>
-            {showCatalog && (
-                <div className="catalog-list">
-                    <ul>
-                        <li><a href='/catalog?info_id=1'>Шины</a></li>
-                        <li><a href='/catalog?info_id=2'>Тех запчасти</a></li>
-                        <li><a href='/catalog?info_id=3'>Масла</a></li>
-                        <li><a href='/catalog?info_id=4'>Инструменты</a></li>
-                        <li><a href='/catalog?info_id=5'>АвтоХимия</a></li>
-                    </ul>
-                </div>
-            )}
+            <div className={`catalog-list ${showCatalog ? 'show' : ''}`} ref={catalogRef}>
+                <ul>
+                    <li><a href='/catalog?info_id=1'>Шины</a></li>
+                    <li><a href='/catalog?info_id=2'>Тех запчасти</a></li>
+                    <li><a href='/catalog?info_id=3'>Масла</a></li>
+                    <li><a href='/catalog?info_id=4'>Инструменты</a></li>
+                    <li><a href='/catalog?info_id=5'>АвтоХимия</a></li>
+                </ul>
+            </div>
         </div>
     );
 }

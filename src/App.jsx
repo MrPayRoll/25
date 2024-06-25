@@ -13,11 +13,11 @@ import Onas from "./Components/Onas";
 import Modal from './modal/ModalRegistration';
 import ModalAuth from './modal/ModalAuth';
 import YourComponent from './Components/test';
-import DetailForm from './Components/AdminPanel';
+import DetailPage from './Components/AdminPanel';
 import Slider from './Components/Slider';
 import PrivateRoute from './modal/PrivateRoute';
-import DetailPage from './Components/DetailPage';
-
+import DeletePage from './Components/admins/delete';
+import PutsPage from './Components/admins/puts';
 export default function App() {
   return (
     <Router>
@@ -35,11 +35,13 @@ export default function App() {
         <Route path="/test" element={<YourComponent />} />
         <Route path="/admin" element={
           <PrivateRoute requiredRole="ADMIN">
-            <DetailForm />
+            <DetailPage />
           </PrivateRoute>
         } />
         <Route path="/slider" element={<Slider />} />
-        <Route path="/details/:id" element={<DetailPage />} /> {/* Add this route */}
+        <Route path="/details/:id" element={<DetailPage />} />
+        <Route path="/delete" element={<DeletePage />} />
+        <Route path="/put" element={<PutsPage />} />
       </Routes>
       <ToastContainer />
     </Router>

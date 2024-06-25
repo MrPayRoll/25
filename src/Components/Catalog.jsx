@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import '../Components/Catalog.css';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../modal/AuthContext'; // Adjust the path according to your project structure
+import { useAuth } from '../modal/AuthContext';
 
 function Catalog() {
-  const { user } = useAuth(); // Use the user from context
-  const userId = user ? user.user : null; // Adjust according to your user object structure
+  const { user } = useAuth();
+  const userId = user ? user.user : null;
 
   const [filteredData, setFilteredData] = useState([]);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(5000);
   const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState({
     1: false,
@@ -20,6 +19,10 @@ function Catalog() {
     3: false,
     4: false,
     5: false,
+  });
+  const [basket, setBasket] = useState(() => {
+    const savedBasket = localStorage.getItem('basket');
+    return savedBasket ? JSON.parse(savedBasket) : [];
   });
 
   const location = useLocation();
@@ -46,7 +49,7 @@ function Catalog() {
     if (!Array.isArray(data)) return;
 
     let filtered = data.filter((item) => item.price >= minValue && item.price <= maxValue);
-    
+
     const selectedCategoryValues = Object.values(selectedCategories);
     if (selectedCategoryValues.some((value) => value)) {
       filtered = filtered.filter((item) => selectedCategories[item.info_id]);
@@ -76,7 +79,7 @@ function Catalog() {
           throw new Error('Data is not an array');
         }
       } catch (error) {
-        setError(error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
@@ -108,106 +111,107 @@ function Catalog() {
     navigate(`/details/${detailId}`);
   };
 
-  const handleBuyClick = async (detailId) => {
-    if (!userId) {
-      alert('User ID not found!');
+  const handleAddToBasket = (item) => {
+    const isItemInBasket = basket.some(basketItem => basketItem.detail_id === item.detail_id);
+    if (isItemInBasket) {
+      alert('Данный товар уже имеется в корзине');
       return;
     }
 
-    console.log('User ID:', userId);
-
-    try {
-      await axios.put('https://781c-94-141-125-64.ngrok-free.app/api/basket/add', {
-        id: userId,
-        detail_id: detailId
-      });
-      alert('Purchase successful!');
-    } catch (error){}
+    setBasket(prevBasket => {
+      const newBasket = [...prevBasket, { ...item, quantity: 1 }];
+      localStorage.setItem('basket', JSON.stringify(newBasket));
+      return newBasket;
+    });
+    alert('Товар добавлен в корзину');
   };
 
   return (
-    <>
-      <div className='glivn'>
-        <div className="container-common">
-          <div className="sidebarr">
-            <div className="filter-section">
-              <h4>Price Range</h4>
-              <div className="range-container">
+    <div className='glivn'>
+      <div className="container-common">
+        <div className="sidebarr">
+          <div className="filter-section">
+            <h4>Price Range</h4>
+            <div className="range-container">
+              <input
+                type="number"
+                className="range-input"
+                value={minValue}
+                onChange={handleMinChange}
+                min="0"
+                max="10000"
+              />
+              <span>:</span>
+              <input
+                type="number"
+                className="range-input"
+                value={maxValue}
+                onChange={handleMaxChange}
+                min="0"
+                max="10000"
+              />
+              <div className="slider-container-ct">
                 <input
-                  type="number"
-                  className="range-input"
+                  type="range"
+                  min="0"
+                  max="10000"
                   value={minValue}
                   onChange={handleMinChange}
+                  className="slider-ct"
+                />
+                <input
+                  type="range"
                   min="0"
                   max="10000"
-                />
-                <span>:</span>
-                <input
-                  type="number"
-                  className="range-input"
                   value={maxValue}
                   onChange={handleMaxChange}
-                  min="0"
-                  max="10000"
+                  className="slider-ct"
                 />
-                <div className="slider-container-ct">
-                  <input
-                    type="range"
-                    min="0"
-                    max="10000"
-                    value={minValue}
-                    onChange={handleMinChange}
-                    className="slider-ct"
-                  />
-                  <input
-                    type="range"
-                    min="0"
-                    max="10000"
-                    value={maxValue}
-                    onChange={handleMaxChange}
-                    className="slider-ct"
-                  />
-                </div>
               </div>
-            </div>
-            <div className="filter-section">
-              <h4>Categories</h4>
-              {Object.keys(selectedCategories).map((categoryId) => (
-                <label key={categoryId} className={`category-label category-${categoryId}`}>
-                  <input
-                    type="checkbox"
-                    value={categoryId}
-                    checked={selectedCategories[categoryId]}
-                    onChange={() => handleCategoryChange(categoryId)}
-                    className={`category-checkbox category-${categoryId}`}
-                  />
-                  {categoryId === '1' && "Шины"}
-                  {categoryId === '2' && "Тех запчасти"}
-                  {categoryId === '3' && "Масла"}
-                  {categoryId === '4' && "Инструменты"}
-                  {categoryId === '5' && "АвтоХимия"}
-                </label>
-              ))}
             </div>
           </div>
-          <div className="product-grid">
-            {filteredData && filteredData.map((item) => (
-              <div key={item.detail_id} className="product-card" onClick={() => handleCardClick(item.detail_id)}>
-                <img src={`data:image/png;base64,${item.img}`} alt={item.name} />
-                <h2>{item.name}</h2>
-                <div className="info">
-                  <p className="price">Price: {item.price}</p>
-                  <button className="buy-button" onClick={(e) => {
-                    e.stopPropagation();
-                    handleBuyClick(item.detail_id);
-                  }}>Купить</button>
-                </div>
-              </div>
+          <div className="filter-section">
+            <h4>Categories</h4>
+            {Object.keys(selectedCategories).map((categoryId) => (
+              <label key={categoryId} className={`category-label category-${categoryId}`}>
+                <input
+                  type="checkbox"
+                  value={categoryId}
+                  checked={selectedCategories[categoryId]}
+                  onChange={() => handleCategoryChange(categoryId)}
+                  className={`category-checkbox category-${categoryId}`}
+                />
+                {categoryId === '1' && "Шины"}
+                {categoryId === '2' && "Тех запчасти"}
+                {categoryId === '3' && "Масла"}
+                {categoryId === '4' && "Инструменты"}
+                {categoryId === '5' && "АвтоХимия"}
+              </label>
             ))}
           </div>
         </div>
+        <div className="product-grid">
+          {filteredData && filteredData.map((item) => (
+            <div key={item.detail_id} className="product-card" onClick={() => handleCardClick(item.detail_id)}>
+              <img src={`data:image/png;base64,${item.img}`} alt={item.name} />
+              <h2>{item.name}</h2>
+              <div className="info">
+                <p className="price">Цена : {item.price} Pуб.</p>
+                <button
+                  className="buy-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToBasket(item);
+                  }}
+                >
+                  Купить
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
