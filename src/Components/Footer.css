@@ -67,14 +67,17 @@
         width: 100vw;
       }
       .footer{
-        margin-left: 5%;
+        margin-left: 2%;
         font-size: 14px;
         justify-content: center;
-        width: 95vw;
+        width: 100vw;
         overflow: hidden;
       }
-      .links{
-        margin-left: 15%;
+      .links-1{
+        margin-left: 5%;
+      }
+      .links-2{
+        margin-left: -20%;
       }
       .contact-info{
         grid-template-columns: 1fr 1fr;

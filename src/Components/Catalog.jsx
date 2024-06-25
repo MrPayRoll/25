@@ -114,6 +114,11 @@ function Catalog() {
   };
 
   const handleAddToBasket = (item) => {
+    if (!user) {
+      toast.error('Пожалуйста, войдите в систему, чтобы добавить товар в корзину');
+      return;
+    }
+
     const isItemInBasket = basket.some(basketItem => basketItem.detail_id === item.detail_id);
     if (isItemInBasket) {
       toast.warn('Данный товар уже имеется в корзине');

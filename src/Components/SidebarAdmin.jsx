@@ -9,7 +9,6 @@ function Sidebar() {
       <ul>
         <Link to='/admin'><li><button>Добавить</button></li></Link>
         <Link to='/delete'><li><button>Удалить</button></li></Link>
-        <Link to='/put'><li><button>Изменить</button></li></Link>
       </ul>
     </div>
   );

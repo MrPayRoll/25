@@ -21,12 +21,10 @@ export const AuthProvider = ({ children }) => {
                 setToken(storedToken);
             }
         } catch (error) {
-            console.error("Ошибка при парсинге данных из localStorage:", error);
         }
     }, []);
 
     const login = (userData) => {
-        console.log("Login function called with userData:", userData); // Debugging log
         setIsAuthenticated(true);
         setUser(userData);
         setToken(userData.token);

@@ -3,10 +3,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import './ModalAuth.css';
-import { useAuth } from '../modal/AuthContext'; // Adjust the path according to your project structure
+import { useAuth } from '../modal/AuthContext';
 
 const ModalAuth = ({ activeAuth, setActiveAuth }) => {
-    const { login } = useAuth(); // Use the login function from context
+    const { login } = useAuth();
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -22,17 +22,12 @@ const ModalAuth = ({ activeAuth, setActiveAuth }) => {
     const handleSubmit = async () => {
         try {
             const response = await axios.post('https://781c-94-141-125-64.ngrok-free.app/api/user/login', formData);
-            console.log("Login response data:", response.data); // Log all data from backend
-            login(response.data); // Call login function with user data
+            login(response.data);
             setActiveAuth(false);
             toast.success("Успешная авторизация!");
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.error("Ошибка при отправке запроса:", error.message);
                 if (error.response) {
-                    console.error("Data:", error.response.data);
-                    console.error("Status:", error.response.status);
-                    console.error("Headers:", error.response.headers);
                     if (error.response.status === 401) {
                         toast.error("Неверный email или пароль.");
                     } else {
@@ -44,7 +39,6 @@ const ModalAuth = ({ activeAuth, setActiveAuth }) => {
                     toast.error(`Ошибка: ${error.message}`);
                 }
             } else {
-                console.error("Unexpected error:", error);
                 toast.error("Произошла непредвиденная ошибка");
             }
         }

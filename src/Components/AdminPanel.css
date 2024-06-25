@@ -43,12 +43,13 @@
   width: 50%;
 }
 
-@media (max-width: 600) {
+@media (max-width:600px){
   .glav-adminpanel {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 20px;
-    width: 70vw;
+    grid-template-columns: 0.5fr 1fr;
     margin-left: 1%;
   }
+  .glav-adminpanel > form {
+    margin-left: 0%;
+    width: 100%;
+}
 }

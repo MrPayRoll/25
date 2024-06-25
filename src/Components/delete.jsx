@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../AdminPanel.css';
-import Sidebar from '../SidebarAdmin';
+import Sidebar from './SidebarAdmin';
 
 function DeletePage() {
   const [id, setId] = useState('');

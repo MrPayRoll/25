@@ -15,7 +15,6 @@ import DetailAdmin from './Components/AdminPanel';
 import Slider from './Components/Slider';
 import PrivateRoute from './modal/PrivateRoute';
 import DeletePage from './Components/DetailPage';
-import PutsPage from './Components/admins/puts';
 import DetailPage from './Components/DetailPage';
 export default function App() {
   return (
@@ -38,7 +37,6 @@ export default function App() {
         <Route path="/slider" element={<Slider />} />
         <Route path="/details/:id" element={<DetailPage />} />
         <Route path="/delete" element={<DeletePage />} />
-        <Route path="/put" element={<PutsPage />} />
       </Routes>
       <ToastContainer />
     </Router>

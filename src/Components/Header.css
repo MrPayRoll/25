@@ -291,7 +291,6 @@
         margin-left: 0;
         padding: 10px 0;
     }
-
     .logo {
         margin-bottom: 10px;
     }
@@ -339,7 +338,7 @@
         flex-direction: column;
         gap: 5px;
         align-items: center;
-        width: 80%;
+        width: 100%;
     }
 
     .auth-buttons .smaller-btn {
@@ -365,10 +364,13 @@
     }
 
     .catalog-list {
-       margin-top: -75%;
+       margin-top: -107%;
        height: 30%;
+       margin-left: 25%;
     }
-
+    .catalog-list ul li{
+        margin: 0;
+    }
     .catalog-list ul {
         display: flex;
         flex-direction: column;

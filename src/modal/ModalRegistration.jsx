@@ -61,11 +61,7 @@ const Modal = ({ active, setActive }) => {
             toast.success("Регистрация прошла успешно!");
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.error("Ошибка при отправке запроса:", error.message);
                 if (error.response) {
-                    console.error("Data:", error.response.data);
-                    console.error("Status:", error.response.status);
-                    console.error("Headers:", error.response.headers);
                     if (error.response.status === 404) { 
                         toast.error("Пользователь с таким email уже зарегистрирован");
                     } else {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../modal/AuthContext';
+import Zakaz from './Zakaz';
 import '../Components/Basket.css';
 
 const Basket = () => {
@@ -9,6 +10,7 @@ const Basket = () => {
     return savedBasket ? JSON.parse(savedBasket) : [];
   });
   const [favorites, setFavorites] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     const savedBasket = localStorage.getItem('basket');
@@ -87,11 +89,12 @@ const Basket = () => {
               <p>Всего: {items.length} шт</p>
               <p>Стоимость товаров в заказе: {totalPrice} Р</p>
               <p>Итого к оплате: {totalPrice} Р</p>
-              <button>Перейти к оформлению</button>
+              <button onClick={() => setIsFormOpen(true)}>Перейти к оформлению</button>
             </div>
           </>
         )}
       </div>
+      {isFormOpen && <Zakaz onClose={() => setIsFormOpen(false)} items={items} />}
     </>
   );
 };
