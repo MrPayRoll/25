@@ -3,6 +3,8 @@ import '../Components/Catalog.css';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../modal/AuthContext';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Catalog() {
   const { user } = useAuth();
@@ -114,24 +116,25 @@ function Catalog() {
   const handleAddToBasket = (item) => {
     const isItemInBasket = basket.some(basketItem => basketItem.detail_id === item.detail_id);
     if (isItemInBasket) {
-      alert('Данный товар уже имеется в корзине');
+      toast.warn('Данный товар уже имеется в корзине');
       return;
     }
 
     setBasket(prevBasket => {
       const newBasket = [...prevBasket, { ...item, quantity: 1 }];
       localStorage.setItem('basket', JSON.stringify(newBasket));
+      toast.success('Товар добавлен в корзину');
       return newBasket;
     });
-    alert('Товар добавлен в корзину');
   };
 
   return (
     <div className='glivn'>
+      <ToastContainer />
       <div className="container-common">
         <div className="sidebarr">
           <div className="filter-section">
-            <h4>Price Range</h4>
+            <h4>Ценовой диапазон</h4>
             <div className="range-container">
               <input
                 type="number"
@@ -171,7 +174,7 @@ function Catalog() {
             </div>
           </div>
           <div className="filter-section">
-            <h4>Categories</h4>
+            <h4>Категории</h4>
             {Object.keys(selectedCategories).map((categoryId) => (
               <label key={categoryId} className={`category-label category-${categoryId}`}>
                 <input

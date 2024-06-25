@@ -67,7 +67,6 @@ const Basket = () => {
                       <p className="articul">Артикул: {item.articul}</p>
                       <p className="description">{item.description}</p>
                       <div className="actions">
-                        <button onClick={() => handleAddToFavorites(item.detail_id)}>В избранное</button>
                         <button onClick={() => handleRemove(item.detail_id)}>Удалить</button>
                       </div>
                     </div>

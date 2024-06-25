@@ -85,11 +85,10 @@ function Header() {
                         <div className="profile-menu">
                             <div className="profile-icon" onClick={() => setShowProfileMenu(!showProfileMenu)}>
                                 <i className="fas fa-user-circle"></i>
-                                <span>Профиль</span>
+                                <span className='menu-vh'>Меню</span>
                             </div>
                             {showProfileMenu && (
                                 <div className="profile-dropdown">
-                                    <Link to="/profile" onClick={() => setShowProfileMenu(false)}>Мой профиль</Link>
                                     {user && user.role === 'ADMIN' && (
                                         <Link to="/admin" onClick={() => setShowProfileMenu(false)}>Админ панель</Link>
                                     )}
